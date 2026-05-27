@@ -1,41 +1,39 @@
 package semestrovka.askosite.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import semestrovka.askosite.dto.LoginByUsernameRequest;
 import semestrovka.askosite.dto.RegisterRequest;
+import semestrovka.askosite.exceptions.RegisterInvalidException;
 import semestrovka.askosite.service.AuthService;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(
-            @RequestBody RegisterRequest request
-    ) {
+    public String registerPost(@Valid @ModelAttribute RegisterRequest request, BindingResult result) {
+        if (result.hasErrors()){
+            throw new RegisterInvalidException(result.getFieldErrors());
+        }
         authService.register(request);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body("User registered successfully");
+        return "redirect:/login";
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(
-            @RequestBody LoginByUsernameRequest request
-    ) {
-        authService.login(request);
+    @GetMapping("/register")
+    public String registerGet(){
+        return "register";
+    }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("это мне вообще не надо, уберу");
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 }

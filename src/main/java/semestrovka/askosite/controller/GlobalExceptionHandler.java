@@ -1,50 +1,56 @@
 package semestrovka.askosite.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import semestrovka.askosite.exceptions.EmailAlreadyExistsException;
-import semestrovka.askosite.exceptions.NicknameAlreadyExistsException;
+import org.springframework.web.servlet.ModelAndView;
+import semestrovka.askosite.exceptions.*;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(NicknameAlreadyExistsException.class)
-    public String handleNicknameExists(
-            NicknameAlreadyExistsException ex,
-            Model model,
-            HttpServletRequest request
-    ) {
-        model.addAttribute("title", "Ошибка регистрации");
-        model.addAttribute("message", "Пользователь с таким ником уже существует!");
-        model.addAttribute("path", request.getRequestURI());
-
-        return "error/custom-error";
+    public String handleNicknameExists(NicknameAlreadyExistsException ex, Model model) {
+        log.error(ex.getMessage());
+        model.addAttribute("error", "Пользователь с таким ником уже существует!");
+        return "register";
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public String handleEmailExists(
-            EmailAlreadyExistsException ex,
-            Model model,
-            HttpServletRequest request
-    ) {
-        model.addAttribute("title", "Ошибка регистрации");
-        model.addAttribute("message", "Эта почта уже кем-то используется");
-        model.addAttribute("path", request.getRequestURI());
+    public String handleEmailExists(EmailAlreadyExistsException ex, Model model) {
+        model.addAttribute("error", "Эта почта уже кем-то используется");
+        log.error(ex.getMessage());
+        return "register";
+    }
 
-        return "error/custom-error";
+    @ExceptionHandler(RegisterInvalidException.class)
+    public String handleRegisterInvalidException(RegisterInvalidException ex, Model model){
+        model.addAttribute("error", ex.getMessage());
+        log.error(ex.getMessage());
+        return "register";
+    }
+    @ExceptionHandler(AskAlreadyExistsException.class)
+    public String handleAskAlreadyExistsException(AskAlreadyExistsException ex, Model model) {
+        model.addAttribute("error", "Аск с такой ссылкой уже существует");
+        model.addAttribute("contentPage", "/WEB-INF/views/create_ask.jsp");
+        model.addAttribute("title", "Новый аск");
+        log.error(ex.getMessage());
+        return "layout";
+    }
+
+    @ExceptionHandler(AskFormInvalidException.class)
+    public String handleAskFormInvalidException(AskFormInvalidException ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        model.addAttribute("contentPage", "/WEB-INF/views/create_ask.jsp");
+        model.addAttribute("title", "Новый аск");
+        log.error(ex.getMessage());
+        return "layout";
     }
 
     @ExceptionHandler(Exception.class)
-    public String handleOtherExceptions(
-            Exception ex,
-            Model model,
-            HttpServletRequest request
-    ) {
-        model.addAttribute("title", "Internal server error");
-        model.addAttribute("message", ex.getMessage());
-        model.addAttribute("path", request.getRequestURI());
-
-        return "error/custom-error";
+    public String handleOtherExceptions(Exception ex) {
+        log.error(ex.getMessage());
+        return "error_page";
     }
 }

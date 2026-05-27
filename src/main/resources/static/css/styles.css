@@ -1,0 +1,19 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 220px;
+    height: 100vh;
+    background: #f0f0f0;
+    padding: 20px;
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.content {
+    margin-left: 240px;
+    padding: 20px;
+}

@@ -19,7 +19,7 @@ public class NotificationEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    private User user;
 
     @Column(name = "source_id", nullable = false)
     private UUID sourceId;

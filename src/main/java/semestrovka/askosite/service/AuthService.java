@@ -5,10 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import semestrovka.askosite.dto.LoginByUsernameRequest;
 import semestrovka.askosite.dto.RegisterRequest;
-import semestrovka.askosite.entity.UserCredentialsEntity;
-import semestrovka.askosite.entity.UserEntity;
+import semestrovka.askosite.entity.UserCredentials;
+import semestrovka.askosite.entity.User;
+import semestrovka.askosite.exceptions.EmailAlreadyExistsException;
+import semestrovka.askosite.exceptions.NicknameAlreadyExistsException;
 import semestrovka.askosite.repository.UserCredentialsRepository;
 import semestrovka.askosite.repository.UserRepository;
 
@@ -23,29 +24,23 @@ public class AuthService {
     @Transactional
     public void register(RegisterRequest request) {
         if (userRepository.existsByNickname(request.getNickname())) {
-            throw new RuntimeException("Nickname already exists");
+            throw new NicknameAlreadyExistsException();
         }
         if (credentialsRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException();
         }
-        UserEntity user = UserEntity.builder()
+        User user = User.builder()
                 .nickname(request.getNickname())
+                .isDeleted(false)
+                .isWallPrivate(false)
                 .build();
-
         userRepository.save(user);
 
-        UserCredentialsEntity credentials = UserCredentialsEntity.builder()
+        UserCredentials credentials = UserCredentials.builder()
                 .user(user)
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
-
         credentialsRepository.save(credentials);
-    }
-
-    public boolean login(LoginByUsernameRequest request){
-        if (userRepository.existsByNickname(request.getNickname())){
-            if
-        }
     }
 }
