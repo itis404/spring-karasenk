@@ -15,7 +15,6 @@ public class AskCreateRequest {
     @NotBlank(message = "Придумайте название")
     private String name;
 
-    @NotBlank
     @Image
     private MultipartFile icon;
 }

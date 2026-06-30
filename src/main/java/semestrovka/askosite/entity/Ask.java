@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class Ask {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "unique_name", nullable = false, unique = true, length = 64)

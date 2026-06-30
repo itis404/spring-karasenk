@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Answer {
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;
 
@@ -41,4 +42,7 @@ public class Answer {
     )
     @Column(name = "image_url", nullable = false, length = 64)
     private List<String> imageUrls = new ArrayList<>();
+
+    @Column(name = "likes")
+    private int likes = 0; // пока нет
 }

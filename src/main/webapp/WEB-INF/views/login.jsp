@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@
         <input type="text" id="nickname" name="username"><br>
         <label>Пароль:</label><br>
         <input type="password" id="password" name="password"><br>
-        <button type="submit">Зарегистрироваться</button>
+        <button type="submit">Войти</button>
         <div id="errorField">${error}</div>
     </form>
 </body>

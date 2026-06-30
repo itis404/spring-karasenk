@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class Achievement {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "icon_url", length = 64)

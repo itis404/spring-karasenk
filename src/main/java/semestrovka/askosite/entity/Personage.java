@@ -12,8 +12,8 @@ import lombok.*;
 @Builder
 public class Personage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,4 +37,7 @@ public class Personage {
 
     @Column(length = 4096)
     private String info;
+
+    @Column(name = "icon_url", length = 64)
+    private String iconUrl = "default_personage.jpg";
 }

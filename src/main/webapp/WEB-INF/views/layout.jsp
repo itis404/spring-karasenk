@@ -3,7 +3,7 @@
 <html lang="ru">
 <head>
     <title>${title}</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/sidebar.jsp"/>

@@ -1,10 +1,15 @@
 package semestrovka.askosite.dto;
 
-import org.springframework.data.domain.Slice;
+import lombok.*;
 
-public record AskDto (
-    String name,
-    String uniqueName,
-    String icon,
-    Slice<AnswerDto> answers
-){}
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class AskDto {
+    private String name;
+    private String uniqueName;
+    private String icon;
+    private Boolean isAdmin;
+}

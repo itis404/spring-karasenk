@@ -11,6 +11,7 @@ const errorField = document.getElementById("errorField");
 const form = document.getElementById("registerForm");
 
 function validateNickname(){
+    nicknameField.value = nicknameField.value.trim();
     if (nicknameField.value == ""){
         nicknameError.textContent = "Имя пользователя не может быть пустым.";
     }
@@ -20,6 +21,7 @@ function validateNickname(){
 }
 
 function validateEmail(){
+    emailField.value = emailField.value.trim();
     if (emailField.value == ""){
         emailError.textContent = "Введите почту.";
     }
@@ -29,6 +31,7 @@ function validateEmail(){
 }
 
 function validatePassword(){
+    passwordField.value = passwordField.value.trim()
     const regex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,32}$");
     if (!regex.test(passwordField.value)){
         passwordError.textContent = "Пароль должен содержать цифры, большие и маленькие латинские буквы, не должен содержать пробелов. Длина от 8 до 32 символов.";
@@ -40,6 +43,8 @@ function validatePassword(){
 }
 
 function matchingPasswords(){
+    repeatedPasswordField.value = repeatedPasswordField.value.trim();
+    passwordField.value = passwordField.value.trim();
     if (repeatedPasswordField.value != passwordField.value){
         repeatedPasswordError.textContent = "Пароли не совпадают.";
     }
@@ -64,8 +69,8 @@ function validateForm(event) {
     }
 }
 
-nicknameField.addEventListener("input", validateNickname);
-passwordField.addEventListener("input", validatePassword);
-repeatedPasswordField.addEventListener("input", matchingPasswords);
-emailField.addEventListener("input", validateEmail);
+nicknameField.addEventListener("blur", validateNickname);
+passwordField.addEventListener("blur", validatePassword);
+repeatedPasswordField.addEventListener("blur", matchingPasswords);
+emailField.addEventListener("blur", validateEmail);
 form.addEventListener("submit", validateForm);

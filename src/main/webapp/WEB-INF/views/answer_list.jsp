@@ -3,14 +3,23 @@
 
 <c:forEach var="answer" items="${answers.content}">
     <div style="border:1px solid #ccc; margin:10px 0; padding:10px;">
-        <a href="${pageContext.request.contextPath}/personage/${answer.personageUniqueName}">
+        <c:if test="${ask.isAdmin}">
+            <small>
+                <form action="${pageContext.request.contextPath}/asks/${askUrl}/answers/${answer.id}/delete"
+                        onsubmit="return confirm('Удалить ответ?')" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <button type="submit">Удалить</button>
+                </form>
+            </small>
+        </c:if>
+        <a href="${pageContext.request.contextPath}/personages/${answer.personageUniqueName}">
             ${answer.personageUniqueName}
         </a>
-        <p>${answer.text}</p>
-        <c:if test="${not empty answer.imageUrls}">
+        <p class="text">${answer.text}</p>
+        <c:if test="${not empty answer.images}">
             <div>
-                <c:forEach var="image" items="${answer.imageUrls}">
-                    <img src="${image}" width="200">
+                <c:forEach var="image" items="${answer.images}">
+                    <img src="<c:url value='/img/${image}'/>" width="500">
                 </c:forEach>
             </div>
         </c:if>

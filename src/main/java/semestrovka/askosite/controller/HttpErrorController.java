@@ -1,9 +1,15 @@
 package semestrovka.askosite.controller;
 
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class ErrorController implements ErrorController {
+public class HttpErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
@@ -13,7 +19,9 @@ public class ErrorController implements ErrorController {
 
         model.addAttribute("status", status);
         model.addAttribute("message", message);
+        model.addAttribute("contentPage", "/WEB-INF/views/http_error_page.jsp");
+        model.addAttribute("title", "Ошибка");
 
-        return "error"; // /WEB-INF/views/error.jsp
+        return "http_error_page";
     }
 }

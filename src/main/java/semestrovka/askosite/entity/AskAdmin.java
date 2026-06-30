@@ -7,7 +7,6 @@ import lombok.*;
 
 @Entity
 @Table(name = "ask_admin")
-@IdClass(AskAdminId.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,13 +14,15 @@ import lombok.*;
 @Builder
 public class AskAdmin {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "ask_id")
+    @JoinColumn(name = "ask_id", nullable = false)
     private Ask ask;
 
     @Column(name = "info_posts_enabled")
